@@ -86,10 +86,15 @@ def login_page():
 
 # Main Application Function
 def main_app():
-  # Sidebar Logout Button
+  # Sidebar Controls
   with st.sidebar:
     st.write(f"Logged in as **{DEFAULT_USERNAME}**")
-    if st.button("Logout"):
+
+    # Global Refresh Button
+    if st.button("🔄 Refresh Data", use_container_width=True):
+      st.rerun()
+
+    if st.button("Logout", use_container_width=True):
       st.session_state.logged_in = False
       st.rerun()
 
@@ -138,7 +143,14 @@ def main_app():
 
   # Tab 3: Check Attendance
   with tabs[2]:
-    st.header("Attendance Records")
+    col1, col2 = st.columns([4, 1])
+    with col1:
+      st.header("Attendance Records")
+    with col2:
+      st.write("")  # Vertical spacing alignment
+      if st.button("🔄 Refresh"):
+        st.rerun()
+
     attendance_data = get_attendance()
     if attendance_data:
       st.table(attendance_data)
